@@ -54,7 +54,7 @@ module.exports = {
     port: 9000,
     historyApiFallback: {
       rewrites: [
-        { from: /^\/$/, to: '/index.html' }
+        { from: /.*/, to: '/index.html' }
       ]
     },
     setup(app) {

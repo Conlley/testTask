@@ -3,7 +3,6 @@
     height: 300px;
     overflow: hidden;
     margin: 0;
-    display: inline-block;
     font-size: initial;
 }
 
@@ -43,7 +42,6 @@
 
 @media (min-width: 481px) {
     .card-type-double .card-picture {
-        width: 100%;
         height: auto;
     }
 }
@@ -55,6 +53,7 @@
 
     .card-type-double {
         width: 100%;
+        order: -1;
     }
 }
 
