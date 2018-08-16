@@ -1,0 +1,16 @@
+{
+  "presets": [[
+    "env", {
+      "modules": false,
+      "loose": true
+    }],
+    "stage-2",
+    "react"
+  ],
+  "plugins": [
+    "syntax-dynamic-import"
+  ],
+  "ignore": [
+    "node_modules"
+  ]
+}
