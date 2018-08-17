@@ -4,11 +4,11 @@
       "modules": false,
       "loose": true
     }],
-    "stage-2",
     "react"
   ],
   "plugins": [
-    "syntax-dynamic-import"
+    "syntax-dynamic-import",
+    "@babel/plugin-proposal-class-properties"
   ],
   "ignore": [
     "node_modules"

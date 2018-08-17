@@ -3,13 +3,22 @@ const { createReadStream } = require('fs');
 
 const webpack = require('webpack');
 
-const HtmlPlugin = require('html-webpack-plugin');
-const HtmlTemplatePlugin = require('html-webpack-template');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackTemplate = require('html-webpack-template');
 
 module.exports = {
   context: __dirname,
-  entry: join(__dirname, 'src/index.jsx'),
-  output: join(__dirname, 'public/bundle.js'),
+
+  entry: {
+    bundle: join(__dirname, 'src/index.jsx')
+  },
+
+  output: {
+    path: join(__dirname, 'public'),
+    filename: 'bundle.js',
+    publicPath: '/'
+  },
+
   resolve: {
     modules: [
       resolve('./src/'),
@@ -33,23 +42,24 @@ module.exports = {
   },
 
   plugins: [
-    new HtmlPlugin({
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: HtmlWebpackTemplate,
+      appMountId: 'root',
       filename: 'index.html',
-      template: HtmlTemplatePlugin,
-      inject: false,
       mobile: true,
-      appMountId: 'root'
+      title: 'Test Task'
     }),
 
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: `"${process.env.NODE_ENV}"`,
+        NODE_ENV: `'${process.env.NODE_ENV}'`,
       },
     }),
   ],
 
   devServer: {
-    contentBase: './public/',
+    contentBase: resolve('public'),
     hot: true,
     port: 9000,
     historyApiFallback: {
@@ -57,7 +67,7 @@ module.exports = {
         { from: /.*/, to: '/index.html' }
       ]
     },
-    setup(app) {
+    before: function(app) {
       app.get('/api/tiles', function (req, res) {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         createReadStream(join(process.cwd(), 'api/tiles.json'), { encoding: 'utf-8' })
