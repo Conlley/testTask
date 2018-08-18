@@ -1,19 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Loading } from '../components';
-
 import './styles/Tile.css';
+import { StatusOverlay } from "../components/StatusProvider";
+import { DEFAULT, FAILURE } from "../constants/status";
 
-const TilePage = ({ match, tiles, loading }) => {
+const TilePage = ({ match, tiles }) => {
   const currentTile = tiles.find(tile => tile.id.toString() === match.params.id);
+  const status = currentTile ? DEFAULT() : FAILURE('Tile wasn\'t found');
 
-  return loading ? <Loading /> : (
-    <article className="tile tile-article">
-      <h1 className="tile-article-title">{currentTile.title}</h1>
-      <h4 className="tile-article-description">{currentTile.description}</h4>
-      <p className="tile-article-text">{currentTile.text}</p>
-    </article>
+  return (
+    <StatusOverlay status={status}>
+      {() => (
+        <article className="tile tile-article">
+          <h1 className="tile-article-title">{currentTile.title}</h1>
+          <h4 className="tile-article-description">{currentTile.description}</h4>
+          <p className="tile-article-text">{currentTile.text}</p>
+        </article>
+      )}
+    </StatusOverlay>
   );
 };
 
@@ -29,8 +34,7 @@ TilePage.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
     text: PropTypes.string
-  })).isRequired,
-  loading: PropTypes.bool.isRequired
+  })).isRequired
 };
 
 export default TilePage;

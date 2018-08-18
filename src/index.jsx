@@ -3,37 +3,37 @@ import { render } from 'react-dom';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import axios from 'axios';
 
-import { Tile, Home, InDevelopment, Error } from './pages';
-import { Header } from './components';
+import { LOADING, SUCCESS, FAILURE } from "./constants/status";
+import { Tile, Home, InDevelopment } from './pages';
+import { Header, StatusProvider } from './components';
 
 import './main.css';
 
 class SPA extends Component {
   state = {
-    error: null,
     tiles: [],
-    loading: true
+    status: LOADING()
   };
 
   componentDidMount = () => axios.get('/api/tiles')
-    .then(({ data }) => this.setState({ tiles: data.tiles, loading: false }))
-    .catch(error => this.setState({ error, loading: false }));
+    .then(({ data }) => this.setState({ tiles: data.tiles, status: SUCCESS() }))
+    .catch(message => this.setState({ status: FAILURE(message) }));
 
   render = () => {
-    const { error, tiles, loading } = this.state;
+    const { tiles, status } = this.state;
 
     return (
       <BrowserRouter>
-        <Fragment>
+        <StatusProvider value={status}>
           <Header />
           <Switch>
-            <Route path="/home" render={(props) => error ? <Error error={error} /> : <Home {...props} tiles={tiles} loading={loading} /> } />
-            <Route path="/tile/:id" render={(props) => error ? <Error error={error} /> : <Tile {...props} tiles={tiles} loading={loading} />} />
+            <Route path="/home" render={(props) => <Home {...props} tiles={tiles} /> } />
+            <Route path="/tile/:id" render={(props) => <Tile {...props} tiles={tiles} />} />
             <Route path="/about" component={InDevelopment} />
             <Route path="/whatever" component={InDevelopment} />
             <Redirect to="/home" />
           </Switch>
-        </Fragment>
+        </StatusProvider>
       </BrowserRouter>
     )
   }

@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 
-import { Card, Loading } from '../components';
+import { Card, StatusOverlay } from '../components';
 
 import './styles/Home.css';
 
-const HomePage = ({ tiles, loading }) => loading ? <Loading /> : (
-  <section className="home home-section">
-    {tiles.map((tile, index) => <Card tile={tile} key={index} />)}
-  </section>
+const HomePage = ({ tiles }) => (
+  <StatusOverlay>
+    {() => (
+      <section className="home home-section">
+        {tiles.map((tile, index) => <Card tile={tile} key={index} />)}
+      </section>
+    )}
+  </StatusOverlay>
 );
 
 HomePage.propTypes = {
@@ -18,8 +22,7 @@ HomePage.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
     text: PropTypes.string
-  })).isRequired,
-  loading: PropTypes.bool.isRequired
+  })).isRequired
 };
 
 export default HomePage;

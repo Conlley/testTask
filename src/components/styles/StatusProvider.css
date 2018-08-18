@@ -1,0 +1,8 @@
+.loading {
+    text-align: center;
+}
+
+.failure {
+    text-align: center;
+    cursor: default;
+}

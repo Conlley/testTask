@@ -1,9 +1,10 @@
 import Card from './Card';
 import Header from './Header';
-import Loading from './Loading';
+import { StatusProvider, StatusOverlay } from './StatusProvider';
 
 export {
   Card,
   Header,
-  Loading
+  StatusProvider,
+  StatusOverlay
 };
