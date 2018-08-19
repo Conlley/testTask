@@ -1,17 +1,23 @@
 .card {
+    transition: .3s box-shadow;
     position: relative;
     height: 300px;
     overflow: hidden;
-    margin: 0;
     font-size: initial;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, .4);
+}
+
+.card:hover {
+    transition: .3s box-shadow;
+    box-shadow: none;
 }
 
 .card-type-normal {
-    width: calc(100% / 3);
+    grid-column: span 1;
 }
 
 .card-type-double {
-    width: calc(100% / 3 * 2);
+    grid-column: span 2;
 }
 
 .card-link {
@@ -36,29 +42,9 @@
     margin: 10px 30px;
 }
 
-.card-picture {
-    height: 100%;
-}
-
-@media (min-width: 481px) {
-    .card-type-double .card-picture {
-        height: auto;
-    }
-}
-
-@media (max-width: 1024px) {
-    .card-type-normal {
-        width: 50%;
-    }
-
-    .card-type-double {
-        width: 100%;
-        order: -1;
-    }
-}
-
 @media (max-width: 480px) {
     .card {
-        width: 100%;
+        grid-column: span 1;
+        box-shadow: none;
     }
 }
